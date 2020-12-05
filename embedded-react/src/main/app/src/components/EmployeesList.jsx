@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from "react";
-import employeesService from "../services/employeesService";
+import * as employeesService from "../services/employeesService.js";
 
 const EmployeesList = () => {
-  const [emplyees, setEmployees] = useState([]);
+  const [employees, setEmployees] = useState([]);
 
   useEffect(() => {
     const getEmployees = async () => {
-      let { data } = await employeesService.getAllEmployees();
+      let { data } = await employeesService.loadFromServer(2);
+      // let { data } = await employeesService.getAllEmployees();
       setEmployees(data._embedded.employees);
     };
 
     getEmployees();
   }, []);
 
-  const employeesList = emplyees.map((employee) => (
+  const employeesList = employees.map((employee) => (
     <tr key={employee._links.self.href}>
       <td>{employee.firstName}</td>
       <td>{employee.lastName}</td>
